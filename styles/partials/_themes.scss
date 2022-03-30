@@ -1,0 +1,231 @@
+/**********
+* LIGHT MODE STYLES
+**********/
+[data-theme="light"] {
+  --clr-background: #efece8;
+  --clr-surface--200: #f2f2f2;
+  --clr-surface--400: #cccac4;
+  --clr-onsurface--100: #ffffff;
+  --clr-onsurface--200: #e6e6e6;
+  --clr-onsurface--400: #666666;
+  --clr-onsurface--600: #5f6366;
+  --clr-onsurface--800: #2f3133;
+  --clr-primary--400: #f2f2f2;
+  --clr-primary--600: #929292;
+  --clr-secondary--400: #e52e2e;
+  --clr-secondary--600: #921c1c;
+
+  body {
+    background-color: var(--clr-background);
+  }
+
+  button {
+    color: var(--clr-onsurface--100);
+    background-color: var(--clr-onsurface--400);
+
+    &:hover {
+      color: var(--clr-onsurface--800);
+      background-color: var(--clr-onsurface--200);
+    }
+  }
+
+  .header {
+    h1 {
+      color: var(--clr-surface--400);
+    }
+  }
+
+  .theme-controls {
+    h4 {
+      color: var(--clr-surface--400)
+    }
+  }
+
+  .theme-switcher {
+    .theme-switcher__background {
+      background-color: var(--clr-onsurface--100);
+    }
+
+    .active label {
+      color: var(--clr-secondary--400);
+    }
+
+    label {
+      color: var(--clr-surface--400);
+    }
+
+    input {
+      background-color: var(--clr-onsurface--400);
+
+      &:checked {
+        background-color: var(--clr-secondary--400);
+      }
+    }
+  }
+
+  .output {
+    background-color: var(--clr-surface--400);
+    h2 {
+      color: var(--clr-onsurface--800);
+    }
+  }
+
+  .buttons {
+    background-color: var(--clr-surface--400);
+  }
+}
+
+/**********
+* CONTRAST MODE STYLES
+**********/
+[data-theme="contrast"] {
+  --clr-background: #474747;
+  --clr-surface--200: #5a5f64;
+  --clr-surface--400: #2f3133;
+  --clr-onsurface--100: #ffffff;
+  --clr-onsurface--200: #e6e6e6;
+  --clr-onsurface--400: #9b9b9b;
+  --clr-onsurface--600: #5f6366;
+  --clr-onsurface--800: #2f3133;
+  --clr-primary--400: #ff4b82;
+  --clr-primary--600: #b3345a;
+  --clr-secondary--400: #19f9d8;
+  --clr-secondary--600: #0fa891;
+
+  body {
+    background-color: var(--clr-background);
+  }
+
+  button {
+    color: var(--clr-onsurface--800);
+    background-color: var(--clr-onsurface--200);
+
+    &:hover {
+      color: var(--clr-onsurface--100);
+      background-color: var(--clr-onsurface--400);
+    }
+  }
+
+  .header {
+    h1 {
+      color: var(--clr-onsurface--400);
+    }
+  }
+
+  .theme-controls {
+    h4 {
+      color: var(--clr-onsurface--400)
+    }
+  }
+
+  .theme-switcher {
+    .theme-switcher__background {
+      background-color: var(--clr-surface--200);
+    }
+
+    .active label {
+      color: var(--clr-secondary--400);
+    }
+
+    label {
+      color: var(--clr-onsurface--400);
+    }
+
+    input {
+      background-color: var(--clr-onsurface--100);
+
+      &:checked {
+        background-color: var(--clr-secondary--400);
+      }
+    }
+  }
+
+  .output {
+    background-color: var(--clr-surface--400);
+    h2 {
+      color: var(--clr-onsurface--100);
+    }
+  }
+
+  .buttons {
+    background-color: var(--clr-surface--400);
+  }
+}
+
+/**********
+* DARK MODE STYLES
+**********/
+[data-theme="dark"] {
+  --clr-background: #222629;
+  --clr-surface--200: #5a5f64;
+  --clr-surface--400: #2f3133;
+  --clr-onsurface--100: #ffffff;
+  --clr-onsurface--200: #e2e2e2;
+  --clr-onsurface--400: #443850;
+  --clr-onsurface--600: #5f6366;
+  --clr-onsurface--800: #2f3133;
+  --clr-onsurface--900: #0e0c11;
+  --clr-primary--400: #826d99;
+  --clr-primary--600: #bc9edd;
+  --clr-secondary--400: #f7b83d;
+  --clr-secondary--600: #a57829;
+
+  body {
+    background-color: var(--clr-background);
+  }
+
+  button {
+    color: var(--clr-onsurface--200);
+    background-color: var(--clr-onsurface--400);
+
+    &:hover {
+      color: var(--clr-onsurface--200);
+      background-color: var(--clr-onsurface--900);
+    }
+  }
+
+  .header {
+    h1 {
+      color: var(--clr-surface--200);
+    }
+  }
+
+  .theme-controls {
+    h4 {
+      color: var(--clr-surface--200)
+    }
+  }
+
+  .theme-switcher {
+    .theme-switcher__background {
+      background-color: var(--clr-surface--200);
+    }
+
+    .active label {
+      color: var(--clr-secondary--400);
+    }
+
+    label {
+      color: var(--clr-surface--200);
+    }
+
+    input {
+      background-color: var(--clr-onsurface--100);
+
+      &:checked {
+        background-color: var(--clr-secondary--400);
+      }
+    }
+  }
+
+  .output {
+    background-color: var(--clr-surface--400);
+    h2 {
+      color: var(--clr-onsurface--100);
+    }
+  }
+
+  .buttons {
+    background-color: var(--clr-surface--400);
+  }
+}

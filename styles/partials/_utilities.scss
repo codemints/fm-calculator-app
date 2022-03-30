@@ -1,0 +1,17 @@
+.flexed-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.radius {
+  border-radius: 1rem;
+}
+.shadowed--light {
+  box-shadow: 0.5rem 0.5rem 2rem rgba(0, 0, 0, 0.1);
+}
+.uppercase {
+  text-transform: uppercase;
+}
+.lowercase {
+  text-transform: lowercase;
+}

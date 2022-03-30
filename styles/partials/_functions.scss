@@ -1,0 +1,7 @@
+@function setTextColor($bg, $light, $dark) {
+  @if ( lightness($bg) > 50 ) {
+    @return $dark;
+  } @else {
+    @return $light;
+  }
+}
