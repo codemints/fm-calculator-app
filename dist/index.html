@@ -8,8 +8,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Spartan:wght@700&display=swap" rel="stylesheet">
     <title>Frontend Masters Calculator App</title>
-    <script type="module" crossorigin src="./assets/index.1da569df.js"></script>
-    <link rel="stylesheet" href="./assets/index.e3cc7eb8.css">
+    <script type="module" crossorigin src="./assets/index.60083e2d.js"></script>
+    <link rel="stylesheet" href="./assets/index.d0dcddb9.css">
   </head>
   <body class="flexed-center">
     <main class="calculator">
@@ -34,7 +34,11 @@
           </div>
         </div>
       </div>
-      <div class="output radius shadowed--light flexed-center"><h2></h2></div>
+      <!-- <div class="output radius shadowed--light flexed-center"><h2></h2></div> -->
+      <div class="output radius shadowed--light flexed-center">
+        <label for="calculations">Calculator Value</label>
+        <input class="radius" type="text" id="calculations" name="calculations" value="0" readonly>
+      </div>
       <div class="buttons radius shadowed--light">
         <button type="button" class="key" value="7">7</button>
         <button type="button" class="key" value="8">8</button>
