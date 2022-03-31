@@ -1,6 +1,6 @@
 const btnFunc = () => {
   const buttons = Array.from(document.querySelectorAll('.key'));
-  const output = document.querySelector('.output h2');
+  const output = document.querySelector('.output input');
   let keyed = [];
   let calc = [];
   let i = 0;
@@ -88,7 +88,7 @@ const btnFunc = () => {
       //Fire calclation function and reset data contains more than 1 array
       if ( dSet === 'submit' && keyed.length > 1 ) {
         parseData(keyed, calc);
-        output.innerHTML = calculate(calc);
+        output.value = calculate(calc);
         calcString = '';
         return
       }
@@ -96,7 +96,19 @@ const btnFunc = () => {
       //Deal with operator keys
       //If no data in array return
       //Otherwise push to current array index and create a new array
-      if ( operators.indexOf(val) !== -1 ) {
+      if ( operators.indexOf(val) !== -1) {
+        console.log(val, lastKey);
+        if ( (dSet === 'subtract' && keyed.length < 1) || (dSet === 'subtract' && keyed[i]) ) {
+          if ( keyed.length < 1 ) {
+            keyed.push(new Array(val));
+          } else if ( keyed[i].length < 1 ) {
+            keyed[i].push(val);
+          }
+          lastKey = val;
+          output.value = parseString(keyed)
+          return
+        }
+
         if ( keyed.length < 1 ) {
           lastKey = undefined;
           return
@@ -116,7 +128,7 @@ const btnFunc = () => {
           keyed.length = 0;
           i = 0;
           lastKey = undefined;
-          output.innerHTML = '';
+          output.value = '';
           return
         }
         
@@ -127,10 +139,9 @@ const btnFunc = () => {
         keyed[i].pop();
       }
       
-      if ( dSet !== 'submit') output.innerHTML = parseString(keyed);
+      if ( dSet !== 'submit') output.value = parseString(keyed);
       lastKey = val;
     })
-
   })
 }
 

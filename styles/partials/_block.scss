@@ -66,15 +66,36 @@
 }
 .output {
   height: 12.8rem;
-  padding: 3.2rem;
+  padding: 2.4rem;
   margin-top: 3.2rem;
   overflow: hidden;
 
+  label,
+  input {
+    display: block;
+  }
 
-  h2 {
+  label {
+    visibility: hidden;
+    height: 0;
+    width: 0;
+    opacity: 0;
+  }
+
+  input {
+    height: 100%;
+    width: 100%;
     font-size: 4.8rem;
-    margin-left: auto;
-    white-space: nowrap;
+    text-align: end;
+    border: none;
+    padding-top: 1rem;
+    padding-inline: 2rem;
+    cursor: default;
+  }
+  
+  input:active,
+  input:focus {
+    outline: none;
   }
 }
 .buttons {
