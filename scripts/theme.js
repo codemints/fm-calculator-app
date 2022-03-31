@@ -27,10 +27,10 @@ const themeSwitcher = () => {
     }
   }
 
-  if ( prefers('dark') && !storage ) {
+  if ( prefers('dark').matches && !storage ) {
     setTheme(property, 'dark');
     setToggles('dark')
-  } else if ( !prefers('dark') && !storage ) {
+  } else if ( !prefers('dark').matches && !storage ) {
     setTheme(property, 'light');
   }
 
