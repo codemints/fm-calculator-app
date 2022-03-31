@@ -10,6 +10,7 @@
     <title>Frontend Masters Calculator App</title>
   </head>
   <body class="flexed-center">
+    <pre id="test" style="height:2rem;width:100%;font-size:2.4rem;position:absolute;top:5rem;left:5rem;"></pre>
     <main class="calculator">
       <div class="header">
         <h1 class="lowercase">calc</h1>
@@ -38,24 +39,24 @@
         <input class="radius" type="text" id="calculations" name="calculations" value="0" readonly>
       </div>
       <div class="buttons radius shadowed--light">
-        <button type="button" class="key" value="7">7</button>
-        <button type="button" class="key" value="8">8</button>
-        <button type="button" class="key" value="9">9</button>
-        <button type="button" class="uppercase key" value="delete" data-button="correction" data-function="delete">Del</button>
-        <button type="button" class="key" value="4">4</button>
-        <button type="button" class="key" value="5">5</button>
-        <button type="button" class="key" value="6">6</button>
-        <button type="button" class="key" value="+" data-function="add">+</button>
-        <button type="button" class="key" value="1">1</button>
-        <button type="button" class="key" value="2">2</button>
-        <button type="button" class="key" value="3">3</button>
-        <button type="button" class="key" value="-" data-function="subtract">-</button>
-        <button type="button" class="key" value=".">.</button>
-        <button type="button" class="key" value="0">0</button>
-        <button type="button" class="key" value="/" data-function="divide">/</button>
-        <button type="button" class="key" value="*" data-function="multiply">x</button>
-        <button type="button" class="uppercase key" value="reset" data-button="correction" data-function="reset">Reset</button>
-        <button type="button" class="key" value="submit" data-button="submission" data-function="submit">=</button>
+        <button type="button" class="button" value="7">7</button>
+        <button type="button" class="button" value="8">8</button>
+        <button type="button" class="button" value="9">9</button>
+        <button type="button" class="uppercase button" value="BACKSPACE" data-button="correction">Del</button>
+        <button type="button" class="button" value="4">4</button>
+        <button type="button" class="button" value="5">5</button>
+        <button type="button" class="button" value="6">6</button>
+        <button type="button" class="button" value="+">+</button>
+        <button type="button" class="button" value="1">1</button>
+        <button type="button" class="button" value="2">2</button>
+        <button type="button" class="button" value="3">3</button>
+        <button type="button" class="button" value="-" data-function="subtract">-</button>
+        <button type="button" class="button" value=".">.</button>
+        <button type="button" class="button" value="0">0</button>
+        <button type="button" class="button" value="/">/</button>
+        <button type="button" class="button" value="*">x</button>
+        <button type="button" class="uppercase button reset" value="ESCAPE" data-button="correction">Reset</button>
+        <button type="button" class="button" value="ENTER" data-button="submission">=</button>
       </div>
     </main>
     <script type="module" src="/main.js"></script>
