@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="./assets/favicon.63a26457.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Spartan:wght@700&display=swap" rel="stylesheet">
+    <title>Frontend Masters Calculator App</title>
+    <script type="module" crossorigin src="./assets/index.83bd8a2e.js"></script>
+    <link rel="stylesheet" href="./assets/index.e3cc7eb8.css">
+  </head>
+  <body class="flexed-center">
+    <main class="calculator">
+      <div class="header">
+        <h1 class="lowercase">calc</h1>
+        <div class="theme-controls">
+          <h4>Theme</h4>
+          <div class="theme-switcher">
+            <div class="theme-switcher__background"></div>
+            <div>
+              <label for="light-mode">1</label>
+              <input type="radio" name="theme-control" data-mode="light">
+            </div>
+            <div>
+              <label for="contrast-mode">2</label>
+              <input type="radio" name="theme-control" data-mode="contrast">
+            </div>
+            <div>
+              <label for="dark-mode">3</label>
+              <input type="radio" name="theme-control" data-mode="dark">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="output radius shadowed--light flexed-center"><h2></h2></div>
+      <div class="buttons radius shadowed--light">
+        <button type="button" class="key" value="7">7</button>
+        <button type="button" class="key" value="8">8</button>
+        <button type="button" class="key" value="9">9</button>
+        <button type="button" class="uppercase key" value="delete" data-button="correction" data-function="delete">Del</button>
+        <button type="button" class="key" value="4">4</button>
+        <button type="button" class="key" value="5">5</button>
+        <button type="button" class="key" value="6">6</button>
+        <button type="button" class="key" value="+" data-function="add">+</button>
+        <button type="button" class="key" value="1">1</button>
+        <button type="button" class="key" value="2">2</button>
+        <button type="button" class="key" value="3">3</button>
+        <button type="button" class="key" value="-" data-function="subtract">-</button>
+        <button type="button" class="key" value=".">.</button>
+        <button type="button" class="key" value="0">0</button>
+        <button type="button" class="key" value="/" data-function="divide">/</button>
+        <button type="button" class="key" value="*" data-function="multiply">x</button>
+        <button type="button" class="uppercase key" value="reset" data-button="correction" data-function="reset">Reset</button>
+        <button type="button" class="key" value="submit" data-button="submission" data-function="submit">=</button>
+      </div>
+    </main>
+    
+  </body>
+</html>
