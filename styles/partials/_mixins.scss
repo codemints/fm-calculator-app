@@ -1,4 +1,0 @@
-@mixin setBgColor($color, $light, $dark) {
-  background-color: $color;
-  color: setTextColor($color, $light, $dark);
-}
