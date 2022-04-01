@@ -3,7 +3,7 @@ import UseState from '@scripts/state'
 import { calculate as calc, parseCalc as pCalc, parseString as pString } from '@scripts/parse'
 
 const initState = new UseState({})
-const state = initState.state;
+const state = initState.store;
 
 const calculations = () => {
   //Setup inital data
@@ -70,9 +70,6 @@ const calculations = () => {
     if ( state.val === 'ENTER') {
       console.log('hey')
     }
-    
-
-
   }
     
   buttons.forEach(button => {
@@ -80,7 +77,7 @@ const calculations = () => {
       renderInput(e, 'click');
       screen.value = (keyed.length !== 0 ) ? pString(keyed) : 0;
       p('dump', keyed, 2);
-      p('state', initState.state, 2);
+      p('state', state, 2);
     })
   })
 }
