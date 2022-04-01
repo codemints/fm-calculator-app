@@ -205,7 +205,6 @@ const calculations = () => {
     button.addEventListener('click', (e) => {
       renderInput(e, 'click');
       p('test', keyed, 2);
-      c(prevKey);
       screen.value = (keyed.length !== 0 ) ? parseString(keyed) : 0;
     })
   })
