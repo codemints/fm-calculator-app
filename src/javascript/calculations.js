@@ -1,4 +1,14 @@
 import { printJSON as p, consoleLog as c } from '@scripts/custom-functions'
+import UseState from '@scripts/state'
+
+const state = new UseState({
+  state: null,
+  type: null,
+  val: null,
+  count: 0
+})
+
+c(state.state)
 
 const calculations = () => {
   const screen = document.getElementById('calculations');
@@ -70,6 +80,15 @@ const calculations = () => {
     const val = ( type === 'click' ) ? targ.value : targ;
     const func = e.target.dataset.type;
     let keyX = keyed[i];
+
+    state.setState({
+      state: true,
+      type: func,
+      val: val,
+      count: 'up',
+      idx: 0
+    })
+    c(state.state.val);
 
     //Return if array is empty
     if ( opKeys.indexOf(val) !== -1 || val === 'BACKSPACE' || val === 'ENTER' ) {
