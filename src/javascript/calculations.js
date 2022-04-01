@@ -121,6 +121,11 @@ const calculations = () => {
 
     //Manage subtract
     if ( val === '-') {
+      if ( prevKey === 'ENTER' ) {
+        keyed.push(new Array());
+        i++
+        prevKey = undefined;
+      }
       if ( keyX.length < 1 ) {
         op = false;
         keyX.push('(')
@@ -142,6 +147,7 @@ const calculations = () => {
         op = true;
         return;
       }
+
     }
 
     //Manage delete
