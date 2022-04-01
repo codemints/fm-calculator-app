@@ -53,7 +53,7 @@ const btnFunc = () => {
     let calcString = '';
     data.forEach(item => {
       item.forEach(element => {
-        calcString += element;
+        calcString = element;
       })
     })
     return calcString;
