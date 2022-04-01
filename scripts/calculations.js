@@ -1,15 +1,19 @@
+import { printJSON as p, consoleLog as c } from './custom-functions'
+
 const calculations = () => {
-  const prt = (el, val) => document.getElementById('test').innerHTML = JSON.stringify(el, val, null);
   const screen = document.getElementById('calculations');
   const buttons = document.querySelectorAll('.button')
   const numKeys = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '.'];
   const opKeys = ['+', '-', '*', '/'];
-  const fKeys = ['ENTER', 'BACKSPACE', 'ESCAPE', '='];
   const keyed = [];
   const sets = [];
   let prevKey = undefined;
   let op = false;
   let i = 0;
+
+  const parseCalc = (arr) => {
+    p(arr, 2)
+  }
 
   const parseString = (data) => {
     let calcString = '';
@@ -131,16 +135,18 @@ const calculations = () => {
       }
 
     }
+
+    //Manage submission
+    if ( val === 'ENTER' ) {
+      parseCalc(keyed)
+    }
   }
   
   buttons.forEach(button => {
     button.addEventListener('click', (e) => {
       renderInput(e, 'click');
       screen.value = (keyed.length !== 0 ) ? parseString(keyed) : 0;
-      prt(keyed, null);
-      console.log(`index: ${i}`);
-      // console.log(`value: ${e.target.value}`);
-      console.log(`last key operator: ${op}`);
+      // prt(keyed, null);
     })
   })
 
