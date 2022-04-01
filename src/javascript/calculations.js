@@ -96,6 +96,7 @@ const calculations = () => {
     
     //Manage operations keys
     if ( opKeys.indexOf(val) !== -1 && val !== '-' ) {
+      if (keyX.at(-1) === '-') return;
       if ( prevKey === 'BACKSPACE' ) {
         op = false;
         prevKey = undefined;
@@ -105,12 +106,31 @@ const calculations = () => {
 
       numKeys.forEach(num => {
         if ( keyX.at(0) === num || keyX.at(-1) === num ) {
+          if ( keyX.at(-1) === '.' ) return;
           op = false;
         }
       })
-
+      c(`op: ${op}`)
       if ( !op ) {
-        if ( keyX.indexOf('(') !== -1 && keyX.at(-1) !== ')' ) keyX.push(')');
+        let found = false;
+        if ( keyX.indexOf('(') !== -1 && keyX.at(-1) !== ')' ) {
+          numKeys.forEach(key => {
+            if ( keyX.at(-1) === key ) found = true;
+          })
+          
+          if ( found ) {
+            keyX.push(')');
+            keyed.push(new Array());
+            i++;
+            keyX.push(val);
+            op = true;
+            return;
+          }
+        }
+        
+        // if ( !op ) return;
+        c(`op: ${op}`)
+
         keyX.push(val);
         op = true;
         keyed.push(new Array());
@@ -132,7 +152,7 @@ const calculations = () => {
       }
 
       numKeys.forEach(num => {
-        if ( keyX.at(-1) === num ) {
+        if ( keyX.at(-1) === num && keyX.at(-1) !== '.' ) {
           if ( keyX.indexOf('(') !== -1 ) keyX.push(')');
           keyX.push(val);
           op = true;
@@ -141,6 +161,10 @@ const calculations = () => {
           return;
         }
       })
+      
+      if ( keyX.at(-1) === '-' ) return;
+
+      if ( keyX.at(-1) === ')' ) op = !op;
 
       if ( !op ) {
         keyX.push(val);
@@ -161,7 +185,7 @@ const calculations = () => {
 
         if ( keyX.length > 0 ) {
           opKeys.forEach(key => {
-            if ( keyX.at(-1) === key ) {
+            if ( keyX.at(-1) === key || keyX.at(-1) === ')') {
               keyX.pop();
             }
           })
@@ -189,8 +213,11 @@ const calculations = () => {
     if ( val === 'ENTER' ) {
       if ( keyX.length < 1 ) return prevKey = undefined;
       if ( keyX.length > 1 ) {
-        if ( keyX.at(0) === '(' ) keyX.push(')');
+        if ( keyX.at(0) === '(' && keyX.at(-1) !== '.' ) {
+          keyX.push(')');
+        } else { return }
       }
+      if ( keyX.at(-1) === '.' ) return;
       const results = calculate(parseCalc(keyed));
       keyed.length = 0;
       i = 0;
@@ -205,6 +232,7 @@ const calculations = () => {
     button.addEventListener('click', (e) => {
       renderInput(e, 'click');
       p('test', keyed, 2);
+      c(op, i, prevKey);
       screen.value = (keyed.length !== 0 ) ? parseString(keyed) : 0;
     })
   })
