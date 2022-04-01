@@ -1,264 +1,91 @@
 import { printJSON as p, consoleLog as c } from '@scripts/custom-functions'
 import UseState from '@scripts/state'
+import { calculate as calc, parseCalc as pCalc, parseString as pString } from '@scripts/parse'
 
-const state = new UseState({
-  state: null,
-  type: null,
-  val: null,
-  count: 0
-})
-
-c(state.state)
+const initState = new UseState({})
+const state = initState.state;
 
 const calculations = () => {
+  //Setup inital data
   const screen = document.getElementById('calculations');
   const buttons = document.querySelectorAll('.button')
   const numKeys = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '.'];
   const opKeys = ['+', '-', '*', '/'];
+  const noStart = ['ESCAPE', 'BACKSPACE', 'ENTER', '/', '*', '+',]
   let keyed = new Array();
-  let prevKey = undefined;
-  let op = false;
-  let i = 0;
-
-  const calculate = (arr) => {
-    // let terms = arr.filter((item, index) => index % 2 !== 0);
-    // let ops = arr.filter((item, index) => index % 2 === 0);
-    let calcString = '';
-    
-    arr.forEach(item => calcString += item.join(''));
-    
-    i = 0;
-    prevKey = undefined;
-
-    return new Function('return ' + calcString)();
-  }
-
-  const parseCalc = (arr) => {
-    const parsed = new Array();
-    
-    arr.forEach((item, index, array) => {
-      parsed.push(new Array());
-
-      if ( index !== array.length - 1 ) {
-        item.forEach((i, x, a) => {
-          if ( x !== a.length -1 ) {
-            parsed[index].push(i);
-          }
-        })
-      }
-
-      if ( index === array.length - 1 ) {
-        item.forEach((i) => {
-          parsed[index].push(i);
-        })
-      }
-    })
-
-    arr.forEach((item, index, array) => {
-      if ( index !== array.length - 1 ) {
-        const arr = [];
-        arr.push(item[item.length - 1]);
-        parsed.splice(index * 2 + 1, 0, arr);
-      }
-    })
-
-    return parsed;
-  }
-
-  const parseString = (data) => {
-    let calcString = '';
-    data.forEach(item => {
-      item.forEach(element => {
-        calcString += element;
-      })
-    })
-    return calcString;
-  }
-
-  const renderInput = (e, type) => {
-    const targ = (type === 'click') ? e.target : e.key;
-    const val = ( type === 'click' ) ? targ.value : targ;
-    const func = e.target.dataset.type;
-    let keyX = keyed[i];
-
-    state.setState({
-      state: true,
-      type: func,
-      val: val,
-      count: 'up',
-      idx: 0
-    })
-    c(state.state.val);
-
-    //Return if array is empty
-    if ( opKeys.indexOf(val) !== -1 || val === 'BACKSPACE' || val === 'ENTER' ) {
-      if ( keyed.length < 1 ) return;
-    }
-
-    //Clear screen
-    if ( keyed.length < 1 && opKeys.indexOf(val) === -1 ) screen.value = '';
-
-    //Manage reset
-    if ( val === 'ESCAPE' ) {
-      keyed.length = 0;
-      prevKey = '';
-      i = 0;
-      return
-    }
-
-    //Manage number keys 
-    if ( numKeys.indexOf(val) !== -1 ) {
-      if ( keyed.length < 1 ) {
-        return keyed.push(new Array(val));
-      } else {
-        if ( prevKey === 'ENTER') return;
-        return keyX.push(val);
-      }
-    }
-    
-    //Manage operations keys
-    if ( opKeys.indexOf(val) !== -1 && val !== '-' ) {
-      if (keyX.at(-1) === '-' || keyX.at(-1) === '.') return;
-      if ( prevKey === 'BACKSPACE' ) {
-        op = false;
-        prevKey = undefined;
-      }
-
-      if ( prevKey === 'ENTER' ) prevKey = undefined;
-
-      numKeys.forEach(num => {
-        if ( keyX.at(0) === num || keyX.at(-1) === num ) {
-          if ( keyX.at(-1) === '.' ) return;
-          op = false;
-        }
-      })
-      if ( !op ) {
-        let found = false;
-        if ( keyX.indexOf('(') !== -1 && keyX.at(-1) !== ')' ) {
-          numKeys.forEach(key => {
-            if ( keyX.at(-1) === key ) found = true;
-          })
-          
-          if ( found ) {
-            keyX.push(')');
-            keyed.push(new Array());
-            i++;
-            keyX.push(val);
-            op = true;
-            return;
-          }
-        }
-        
-        // if ( !op ) return;
-
-        keyX.push(val);
-        op = true;
-        keyed.push(new Array());
-        i++;
-        return;
-      }
-    }
-
-    //Manage subtract
-    if ( val === '-') {
-      if ( prevKey === 'ENTER' ) {
-        keyed.push(new Array());
-        i++
-        prevKey = undefined;
-      }
-      if ( keyX.length < 1 ) {
-        op = false;
-        keyX.push('(')
-      }
-
-      numKeys.forEach(num => {
-        if ( keyX.at(-1) === num && keyX.at(-1) !== '.' ) {
-          if ( keyX.indexOf('(') !== -1 ) keyX.push(')');
-          keyX.push(val);
-          op = true;
-          keyed.push(new Array());
-          i++;
-          return;
-        }
-      })
-      
-      if ( keyX.at(-1) === '-' ) return;
-
-      if ( keyX.at(-1) === ')' ) op = !op;
-
-      if ( !op ) {
-        keyX.push(val);
-        op = true;
-        return;
-      }
-
-    }
-
-    //Manage delete
-    if ( val === 'BACKSPACE') {
-      prevKey = val;
-      if ( keyX.length < 1 ) {
-        keyed.pop();
-        ( keyed.length < 1 ) ? i = 0 : i--;
-
-        keyX = keyed[i]
-
-        if ( keyX.length > 0 ) {
-          opKeys.forEach(key => {
-            if ( keyX.at(-1) === key || keyX.at(-1) === ')') {
-              keyX.pop();
-            }
-          })
-        }
-
-
-        return;
-      }
-
-      if ( keyX.length > 0 ) {
-        if ( keyX.at(1) === '-' && keyX.length < 3 ) {
-          keyX.splice(0, 2);
-        } else {
-          keyX.pop();
-        }
-        if ( keyed[0].length < 1 ) {
-          keyed.pop();
-          i = 0;
-        }
-        return;
-      }
-
-    }
-
-    //Manage submission
-    if ( val === 'ENTER' ) {
-      if ( keyX.length < 1 || keyed.length < 2 ) return prevKey = undefined;
-      if ( keyX.length > 1 ) {
-        if ( keyX.at(0) === '(' && keyX.at(-1) !== '.' ) {
-          keyX.push(')');
-        } 
-      }
-      if ( keyX.at(-1) === '.' ) return;
-      const results = calculate(parseCalc(keyed));
-      keyed.length = 0;
-      i = 0;
-      op = false;
-      prevKey = 'ENTER',
-      keyed.push(new Array());
-      keyed[i].push(results);
-    }
-  }
   
+  //Function called by event listener
+  const renderInput = (e, eType) => {
+    const targ = (eType === 'click') ? e.target : e.key;
+    const val = ( eType === 'click' ) ? targ.value : targ;
+    let keyX = keyed[state.idx];
+    
+    initState.setState({}, e)
+
+    //Handle initial non-num clicks
+    if ( keyed.length < 1 && noStart.indexOf(val) !== -1 ) return;
+
+    //Track key presses
+    if ( state.val === state.prevVal ) {
+      initState.setState({count: 1}, e)
+    }
+
+
+    //Handle reset
+    if ( state.val === 'ESCAPE' ) {
+      state.count = 0;
+      state.idx = 0;
+      keyed.length = 0;
+      return;
+    }
+
+    //Handle number keys
+    if ( state.type === 'int') {
+      if ( keyed.length < 1 ) {
+        keyed.push(new Array(state.val));
+        return;
+      }
+      if ( keyed.length > 0 ) {
+        if ( (state.val === '.' && state.prevVal === '.') || (state.val === '.' && keyX.indexOf('.') !== -1 ) ) return;
+        keyX.push(state.val);
+      }
+    }
+    
+    //Handle operator keys
+    if ( state.type === 'ops' && state.val !== '-' ) {
+      if ( state.type === state.prevType ) return;
+      keyX.push(state.val);
+      keyed.push(new Array());
+      initState.setState({
+        idx: 1
+      }, e)
+    }
+    
+    //Handle delete key
+    if ( state.val === 'BACKSPACE') {
+      console.log('hey')
+    }
+    
+    //Handle submission
+    if ( state.val === 'ENTER') {
+      console.log('hey')
+    }
+    
+
+
+  }
+    
   buttons.forEach(button => {
     button.addEventListener('click', (e) => {
       renderInput(e, 'click');
+      screen.value = (keyed.length !== 0 ) ? pString(keyed) : 0;
       p('dump', keyed, 2);
-      p('state', state, 2);
-      screen.value = (keyed.length !== 0 ) ? parseString(keyed) : 0;
+      p('state', initState.state, 2);
     })
   })
+}
 
   // window.addEventListener('keydown', (e) => renderInput(e, 'keydown'));
-}
+
 
 export default calculations
