@@ -27,10 +27,15 @@ button {
   }
 }
 
-pre {
+#state, #dump {
   position: absolute;
   top: 5rem;
-  left: 5rem;
   font-size: 1.8rem;
+}
+#state {
+  left: 80vw;
+}
+#dump {
+  left: 10vw;
 }
 

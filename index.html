@@ -10,7 +10,8 @@
     <title>Frontend Masters Calculator App</title>
   </head>
   <body class="flexed-center">
-    <pre id="test"></pre>
+    <pre id="dump"></pre>
+    <pre id="state"></pre>
     <main class="calculator">
       <div class="header">
         <h1 class="lowercase">calc</h1>
@@ -39,24 +40,24 @@
         <input class="radius" type="text" id="calculations" name="calculations" value="0" readonly>
       </div>
       <div class="buttons radius shadowed--light">
-        <button type="button" class="button" value="7">7</button>
-        <button type="button" class="button" value="8">8</button>
-        <button type="button" class="button" value="9">9</button>
-        <button type="button" class="uppercase button" value="BACKSPACE" data-button="correction">Del</button>
-        <button type="button" class="button" value="4">4</button>
-        <button type="button" class="button" value="5">5</button>
-        <button type="button" class="button" value="6">6</button>
-        <button type="button" class="button" value="+">+</button>
-        <button type="button" class="button" value="1">1</button>
-        <button type="button" class="button" value="2">2</button>
-        <button type="button" class="button" value="3">3</button>
-        <button type="button" class="button" value="-" data-function="subtract">-</button>
-        <button type="button" class="button" value=".">.</button>
-        <button type="button" class="button" value="0">0</button>
-        <button type="button" class="button" value="/">/</button>
-        <button type="button" class="button" value="*">x</button>
-        <button type="button" class="uppercase button reset" value="ESCAPE" data-button="correction">Reset</button>
-        <button type="button" class="button" value="ENTER" data-button="submission">=</button>
+        <button type="button" class="button" value="7" data-type="int">7</button>
+        <button type="button" class="button" value="8" data-type="int">8</button>
+        <button type="button" class="button" value="9" data-type="int">9</button>
+        <button type="button" class="uppercase button" value="BACKSPACE" data-type="exe" data-button="correction">Del</button>
+        <button type="button" class="button" value="4" data-type="int">4</button>
+        <button type="button" class="button" value="5" data-type="int">5</button>
+        <button type="button" class="button" value="6" data-type="int">6</button>
+        <button type="button" class="button" value="+" data-type="ops">+</button>
+        <button type="button" class="button" value="1" data-type="int">1</button>
+        <button type="button" class="button" value="2" data-type="int">2</button>
+        <button type="button" class="button" value="3" data-type="int">3</button>
+        <button type="button" class="button" value="-" data-type="ops">-</button>
+        <button type="button" class="button" value="." data-type="int">.</button>
+        <button type="button" class="button" value="0" data-type="int">0</button>
+        <button type="button" class="button" value="/" data-type="ops">/</button>
+        <button type="button" class="button" value="*" data-type="ops">x</button>
+        <button type="button" class="uppercase button reset" value="ESCAPE" data-type="exe" data-button="correction">Reset</button>
+        <button type="button" class="button" value="ENTER" data-type="exe" data-button="submission">=</button>
       </div>
     </main>
     <script type="module" src="/main.js"></script>

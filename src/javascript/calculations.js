@@ -68,10 +68,13 @@ const calculations = () => {
   const renderInput = (e, type) => {
     const targ = (type === 'click') ? e.target : e.key;
     const val = ( type === 'click' ) ? targ.value : targ;
+    const func = e.target.dataset.type;
     let keyX = keyed[i];
 
     //Return if array is empty
-    if ( opKeys.indexOf(val) !== -1 || val === 'BACKSPACE' || val === 'ENTER' ) if ( keyed.length < 1 ) return;
+    if ( opKeys.indexOf(val) !== -1 || val === 'BACKSPACE' || val === 'ENTER' ) {
+      if ( keyed.length < 1 ) return;
+    }
 
     //Clear screen
     if ( keyed.length < 1 && opKeys.indexOf(val) === -1 ) screen.value = '';
@@ -96,7 +99,7 @@ const calculations = () => {
     
     //Manage operations keys
     if ( opKeys.indexOf(val) !== -1 && val !== '-' ) {
-      if (keyX.at(-1) === '-') return;
+      if (keyX.at(-1) === '-' || keyX.at(-1) === '.') return;
       if ( prevKey === 'BACKSPACE' ) {
         op = false;
         prevKey = undefined;
@@ -110,7 +113,6 @@ const calculations = () => {
           op = false;
         }
       })
-      c(`op: ${op}`)
       if ( !op ) {
         let found = false;
         if ( keyX.indexOf('(') !== -1 && keyX.at(-1) !== ')' ) {
@@ -129,7 +131,6 @@ const calculations = () => {
         }
         
         // if ( !op ) return;
-        c(`op: ${op}`)
 
         keyX.push(val);
         op = true;
@@ -191,6 +192,7 @@ const calculations = () => {
           })
         }
 
+
         return;
       }
 
@@ -211,11 +213,11 @@ const calculations = () => {
 
     //Manage submission
     if ( val === 'ENTER' ) {
-      if ( keyX.length < 1 ) return prevKey = undefined;
+      if ( keyX.length < 1 || keyed.length < 2 ) return prevKey = undefined;
       if ( keyX.length > 1 ) {
         if ( keyX.at(0) === '(' && keyX.at(-1) !== '.' ) {
           keyX.push(')');
-        } else { return }
+        } 
       }
       if ( keyX.at(-1) === '.' ) return;
       const results = calculate(parseCalc(keyed));
@@ -231,8 +233,8 @@ const calculations = () => {
   buttons.forEach(button => {
     button.addEventListener('click', (e) => {
       renderInput(e, 'click');
-      p('test', keyed, 2);
-      c(op, i, prevKey);
+      p('dump', keyed, 2);
+      p('state', state, 2);
       screen.value = (keyed.length !== 0 ) ? parseString(keyed) : 0;
     })
   })
