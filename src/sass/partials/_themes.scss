@@ -15,6 +15,10 @@
   --clr-secondary--400: #e52e2e;
   --clr-secondary--600: #921c1c;
 
+  pre {
+    color: var(--clr-onsurface--800);
+  }
+
   body {
     background-color: var(--clr-background);
   }
@@ -91,6 +95,10 @@
   --clr-primary--600: #b3345a;
   --clr-secondary--400: #19f9d8;
   --clr-secondary--600: #0fa891;
+
+  pre {
+    color: var(--clr-onsurface--100);
+  }
 
   body {
     background-color: var(--clr-background);
@@ -169,6 +177,10 @@
   --clr-primary--600: #bc9edd;
   --clr-secondary--400: #f7b83d;
   --clr-secondary--600: #a57829;
+
+  pre {
+    color: var(--clr-onsurface--200);
+  }
 
   body {
     background-color: var(--clr-background);

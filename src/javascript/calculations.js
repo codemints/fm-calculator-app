@@ -1,18 +1,58 @@
-import { printJSON as p, consoleLog as c } from './custom-functions'
+import { printJSON as p, consoleLog as c } from '@scripts/custom-functions'
 
 const calculations = () => {
   const screen = document.getElementById('calculations');
   const buttons = document.querySelectorAll('.button')
   const numKeys = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '.'];
   const opKeys = ['+', '-', '*', '/'];
-  const keyed = [];
-  const sets = [];
+  let keyed = new Array();
   let prevKey = undefined;
   let op = false;
   let i = 0;
 
+  const calculate = (arr) => {
+    // let terms = arr.filter((item, index) => index % 2 !== 0);
+    // let ops = arr.filter((item, index) => index % 2 === 0);
+    let calcString = '';
+    
+    arr.forEach(item => calcString += item.join(''));
+    
+    i = 0;
+    prevKey = undefined;
+
+    return new Function('return ' + calcString)();
+  }
+
   const parseCalc = (arr) => {
-    p(arr, 2)
+    const parsed = new Array();
+    
+    arr.forEach((item, index, array) => {
+      parsed.push(new Array());
+
+      if ( index !== array.length - 1 ) {
+        item.forEach((i, x, a) => {
+          if ( x !== a.length -1 ) {
+            parsed[index].push(i);
+          }
+        })
+      }
+
+      if ( index === array.length - 1 ) {
+        item.forEach((i) => {
+          parsed[index].push(i);
+        })
+      }
+    })
+
+    arr.forEach((item, index, array) => {
+      if ( index !== array.length - 1 ) {
+        const arr = [];
+        arr.push(item[item.length - 1]);
+        parsed.splice(index * 2 + 1, 0, arr);
+      }
+    })
+
+    return parsed;
   }
 
   const parseString = (data) => {
@@ -39,7 +79,6 @@ const calculations = () => {
     //Manage reset
     if ( val === 'ESCAPE' ) {
       keyed.length = 0;
-      sets.length = 0;
       prevKey = '';
       i = 0;
       return
@@ -50,16 +89,20 @@ const calculations = () => {
       if ( keyed.length < 1 ) {
         return keyed.push(new Array(val));
       } else {
+        if ( prevKey === 'ENTER') return;
         return keyX.push(val);
       }
     }
     
     //Manage operations keys
     if ( opKeys.indexOf(val) !== -1 && val !== '-' ) {
-      if ( prevKey === "BACKSPACE" ) {
+      if ( prevKey === 'BACKSPACE' ) {
         op = false;
         prevKey = undefined;
       }
+
+      if ( prevKey === 'ENTER' ) prevKey = undefined;
+
       numKeys.forEach(num => {
         if ( keyX.at(0) === num || keyX.at(-1) === num ) {
           op = false;
@@ -138,19 +181,30 @@ const calculations = () => {
 
     //Manage submission
     if ( val === 'ENTER' ) {
-      parseCalc(keyed)
+      if ( keyX.length < 1 ) return prevKey = undefined;
+      if ( keyX.length > 1 ) {
+        if ( keyX.at(0) === '(' ) keyX.push(')');
+      }
+      const results = calculate(parseCalc(keyed));
+      keyed.length = 0;
+      i = 0;
+      op = false;
+      prevKey = 'ENTER',
+      keyed.push(new Array());
+      keyed[i].push(results);
     }
   }
   
   buttons.forEach(button => {
     button.addEventListener('click', (e) => {
       renderInput(e, 'click');
+      p('test', keyed, 2);
+      c(prevKey);
       screen.value = (keyed.length !== 0 ) ? parseString(keyed) : 0;
-      // prt(keyed, null);
     })
   })
 
-  window.addEventListener('keydown', (e) => renderInput(e, 'keydown'));
+  // window.addEventListener('keydown', (e) => renderInput(e, 'keydown'));
 }
 
 export default calculations
