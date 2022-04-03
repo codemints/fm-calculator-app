@@ -63,7 +63,7 @@ const calculations = () => {
               initState.setFlag(true)
             };
           })
-          if ( !state.flag ) {
+          if ( !state.flag && prevResults !== null ) {
             keyX.push(state.val);
             return;
           }
