@@ -116,6 +116,7 @@ const calculations = () => {
     
     //Handle delete key
     if ( state.val === 'BACKSPACE') {
+      initState.setResults(false);
       if ( keyed[0].length < 1 ) return;
 
       if ( keyX.at(0) === '(' && keyX.at(1) === '-' && keyX.length < 3 ) {
