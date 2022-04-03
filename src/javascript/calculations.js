@@ -4,6 +4,9 @@ import { calculate as calc, parseCalc as pCalc, parseString as pString } from '@
 
 const initState = new UseState({})
 
+p('dump', [[]], 2);
+p('state', initState.store, 2);
+
 const calculations = () => {
   //Setup inital data
   const screen = document.getElementById('calculations');
@@ -12,6 +15,7 @@ const calculations = () => {
   const opKeys = ['+', '-', '*', '/'];
   const noStart = ['ESCAPE', 'BACKSPACE', 'ENTER', '/', '*', '+',]
   let keyed = new Array([]);
+
   //Function called by event listener
   const renderInput = (e, eType) => {
     const targ = (eType === 'click') ? e.target : e.key;
