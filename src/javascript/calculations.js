@@ -3,7 +3,6 @@ import UseState from '@scripts/state'
 import { calculate as calc, parseCalc as pCalc, parseString as pString } from '@scripts/parse'
 
 const initState = new UseState({})
-const state = initState.store;
 
 const calculations = () => {
   //Setup inital data
@@ -12,72 +11,152 @@ const calculations = () => {
   const numKeys = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '.'];
   const opKeys = ['+', '-', '*', '/'];
   const noStart = ['ESCAPE', 'BACKSPACE', 'ENTER', '/', '*', '+',]
-  let keyed = new Array();
-  
+  let keyed = new Array([]);
   //Function called by event listener
   const renderInput = (e, eType) => {
     const targ = (eType === 'click') ? e.target : e.key;
     const val = ( eType === 'click' ) ? targ.value : targ;
+    const state = initState.store;
     let keyX = keyed[state.idx];
-    
-    initState.setState({}, e)
-
     //Handle initial non-num clicks
-    if ( keyed.length < 1 && noStart.indexOf(val) !== -1 ) return;
+    if ( !keyed.length > 1 && noStart.indexOf(val) !== -1 ) return;
 
     //Track key presses
-    if ( state.val === state.prevVal ) {
-      initState.setState({count: 1}, e)
-    }
-
+    initState.setState(e);
+    initState.setCount(1);
+    if ( state.val !== state.prevVal ) state.count = 1;
+    if ( state.idx < 0 ) state.idx = 0;
 
     //Handle reset
     if ( state.val === 'ESCAPE' ) {
       state.count = 0;
       state.idx = 0;
-      keyed.length = 0;
+      keyed.length = 1;
+      keyed[0].length = 0;
+      initState.setResults(false);
+      initState.setPrevResults(null);
       return;
     }
 
     //Handle number keys
     if ( state.type === 'int') {
-      if ( keyed.length < 1 ) {
-        keyed.push(new Array(state.val));
+      if ( state.results && state.val === '.' ) {
+        if ( state.prevResults % 1 !== 0 ) return;
+        initState.setResults(false);
+      };
+
+      if ( state.results ) return;
+
+      if ( (state.val === '.' && state.prevVal === '.') || (state.val === '.' && keyX.indexOf('.') !== -1 ) ) return;
+
+      if ( keyX.at(-1) === ')') return;
+
+      if ( state.prevType !== 'int' && !state.prevResults ) {
+        if( opKeys.includes(keyX.at(-1)) ) {
+          initState.setFlag(false);
+          numKeys.forEach(key => {
+            if ( keyX.includes(key) ) {
+              initState.setFlag(true)
+            };
+          })
+          if ( !state.flag ) {
+            keyX.push(state.val);
+            return;
+          }
+        }
+      }
+
+      if( opKeys.includes(keyX.at(-1)) ) {
+        keyed.push(new Array(val))
+        initState.setIndex(1);
         return;
       }
-      if ( keyed.length > 0 ) {
-        if ( (state.val === '.' && state.prevVal === '.') || (state.val === '.' && keyX.indexOf('.') !== -1 ) ) return;
-        keyX.push(state.val);
-      }
+
+      initState.setFlag(false);
+      keyX.push(state.val);
     }
     
     //Handle operator keys
-    if ( state.type === 'ops' && state.val !== '-' ) {
-      if ( state.type === state.prevType ) return;
+    if ( state.type === 'ops' ) {
+      initState.setResults(false);
+      if ( keyX.at(-1) === '.' ) return;
+      
+      if ( state.prevType !== 'int' ) {
+        if ( state.count > 2 ) {
+          return;
+        } else {
+          if ( keyed[0] < 1 && state.val === '-' ) return keyed[0].push(val);
+
+          const isNum = parseInt(keyX.at(-1));
+          if ( keyX.at(-1) === ')' && state.val !== '-' || Number.isInteger(isNum)) return keyX.push(val);
+
+          if ( keyX.length < 2 || state.val !== '-' ) return;
+
+          if ( keyX.at(0) === '(' && state.count > 1 && !keyX.includes(')') ) return;
+
+          keyed.push(new Array('('));
+          initState.setIndex(1);
+          keyX = keyed[state.idx];
+          keyX.push(val);
+          return;
+        }
+      }
+
+      if ( keyX.at(0) === '(' && !keyX.includes(')') ) {
+        keyX.push(')');
+      }
+
       keyX.push(state.val);
-      keyed.push(new Array());
-      initState.setState({
-        idx: 1
-      }, e)
+      return
     }
     
     //Handle delete key
     if ( state.val === 'BACKSPACE') {
-      console.log('hey')
+      if ( keyed[0].length < 1 ) return;
+
+      if ( keyX.at(0) === '(' && keyX.at(1) === '-' && keyX.length < 3 ) {
+        keyed.pop();
+        initState.setIndex(-1);
+        return;
+      }
+
+      if ( keyX.length < 2 && state.idx !== 0 ) {
+        keyed.pop();
+        initState.setIndex(-1);
+        return;
+      }
+
+      if ( keyX.at(-1) === ')' ) keyX.pop();
+      keyX.pop();
     }
     
     //Handle submission
     if ( state.val === 'ENTER') {
-      console.log('hey')
+      if ( keyX.at(-1) === '.' ) return;
+
+      if ( keyX.indexOf('(') !== -1 && keyX.indexOf(')') === -1 ) keyX.push(')');
+
+      if ( keyed.length < 2 || keyX.length < 1 ) return;
+
+      const results = calc(pCalc(keyed));
+      keyed.length = 1;
+      keyed[0].length = 0;
+      state.idx = 0;
+      state.count = 0;
+      initState.setFlag(false);
+      initState.setResults(true);
+      initState.setPrevResults(results);
+      keyX = keyed[state.idx];
+      keyX.push(results);
     }
   }
     
   buttons.forEach(button => {
     button.addEventListener('click', (e) => {
       renderInput(e, 'click');
-      screen.value = (keyed.length !== 0 ) ? pString(keyed) : 0;
+      screen.value = (keyed.length === 1 && keyed[0] < 1 ) ? 0 : pString(keyed);
       p('dump', keyed, 2);
-      p('state', state, 2);
+      p('state', initState.store, 2);
     })
   })
 }

@@ -1,42 +1,30 @@
 export default class UseState {
   constructor(props) {
     this.store = {
-      type: props.type,
-      val: props.val,
-      state: props.state,
+      prevResults: null,
       prevType: null,
       prevVal: null,
-      prevState: null,
+      prevFlag: null,
+      results: false,
+      type: props.type,
+      val: props.val,
+      flag: false,
       count: 0,
       idx: 0
     }
   }
 
-  clearState() {
-    this.store.count = 0;
-    this.store.idx = 0;
-  }
-
-  setState(props, event) {
+  setCount(val) { this.store.count += val };
+  setIndex(val) { this.store.idx += val };
+  setFlag(bool) { this.store.flag = bool };
+  setResults(bool) { this.store.results = bool }
+  setPrevResults(val) { this.store.prevResults = val }
+  
+  setState(event) {
     this.store.prevType = this.store.type;
-    this.store.prevState = this.store.state;
+    this.store.prevFlag = this.store.flag;
     this.store.prevVal = this.store.val;
     this.store.type = event.target.dataset.type;
     this.store.val = event.target.value;
-    for ( const key in props ) {
-      if ( key && key === 'state' ) {
-        this.store.state = props.state;
-      }
-      if ( key && key === 'count' ) {
-        ( props[key] === 0 ) ? this.store.count = 0 : this.store.count += props[key];
-      }
-      if ( key && key === 'idx' ) {
-        ( props[key] === 0 ) ? this.store.count = 0 : this.store.idx += props[key];
-      }
-    }
-  }
-
-  setValue() {
-
   }
 }
