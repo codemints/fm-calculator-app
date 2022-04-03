@@ -51,7 +51,7 @@ const calculations = () => {
 
       if ( keyX.at(-1) === ')') return;
 
-      if ( state.prevType !== 'int' && !state.prevResults ) {
+      if ( state.prevType !== 'int' /*&& !state.prevResults*/ ) {
         if( opKeys.includes(keyX.at(-1)) ) {
           initState.setFlag(false);
           numKeys.forEach(key => {
@@ -138,7 +138,7 @@ const calculations = () => {
 
       if ( keyed.length < 2 || keyX.length < 1 ) return;
 
-      const results = calc(pCalc(keyed));
+      const results = Math.round(100*calc(pCalc(keyed)))/100;
       keyed.length = 1;
       keyed[0].length = 0;
       state.idx = 0;
