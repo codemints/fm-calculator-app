@@ -55,7 +55,7 @@ const calculations = () => {
 
       if ( keyX.at(-1) === ')') return;
 
-      if ( state.prevType !== 'int' /*&& !state.prevResults*/ ) {
+      if ( state.prevType !== 'int' && !state.prevResults ) {
         if( opKeys.includes(keyX.at(-1)) ) {
           initState.setFlag(false);
           numKeys.forEach(key => {
